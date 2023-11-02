@@ -31,9 +31,13 @@ let target = PolygonShape(points: targetPoints)
 fileprivate func setUpBall() {
     ball.position = Point(x: 250, y: 400)
     ball.hasPhysics = true
+    ball.isDraggable = false
     ball.fillColor = .red
     ball.onCollision = ballCollided(with:)
+    ball.onExitedScene = ballExitedScene
+    
     scene.add(ball)
+    scene.trackShape(ball)
 }
 
 fileprivate func setUpBarrier() {
@@ -41,13 +45,16 @@ fileprivate func setUpBarrier() {
     barrier.hasPhysics = true
     barrier.isImmobile = true
     barrier.fillColor = .brown
+    
     scene.add(barrier)
 }
 
 fileprivate func setUpFunnel() {
     funnel.position = Point(x: 200, y: scene.height - 25)
     funnel.fillColor = .gray
+    funnel.isDraggable = false
     funnel.onTapped = dropBall
+    
     scene.add(funnel)
 }
 
@@ -56,6 +63,7 @@ fileprivate func setUpTarget() {
     target.hasPhysics = true
     target.isImmobile = true
     target.isImpermeable = false
+    target.isDraggable = false
     target.fillColor = .yellow
     target.name = "target"
     
@@ -71,6 +79,8 @@ func setup() {
 
 // Drops the ball by moving it to the funnel's position.
 func dropBall() {
+    barrier.isDraggable = false
+    
     ball.position = funnel.position
     ball.stopAllMotion()
 }
@@ -80,4 +90,8 @@ func ballCollided(with otherShape: Shape) {
     if otherShape.name != "target" { return }
     
     otherShape.fillColor = .green
+}
+
+func ballExitedScene() {
+    barrier.isDraggable = true
 }
