@@ -86,7 +86,6 @@ func setup() {
     addBarrier(at: Point(x: 100, y: 150), width: 30, height: 15, angle: -0.2)
     addBarrier(at: Point(x: 325, y: 150), width: 100, height: 25, angle: 0.3)
     
-    addTarget(at: Point(x: 184, y: 563))
     addTarget(at: Point(x: 238, y: 624))
     addTarget(at: Point(x: 269, y: 453))
     addTarget(at: Point(x: 213, y: 348))
@@ -115,6 +114,21 @@ func ballExitedScene() {
     for barrier in barriers {
         barrier.isDraggable = true
     }
+    
+    var hitTargets = 0
+    for target in targets {
+        if target.fillColor == .green {
+            hitTargets += 1
+        }
+    }
+    
+    if hitTargets == targets.count {
+        scene.presentAlert(text: "You won!", completion: alertDismissed)
+    }
+    
+    for target in targets {
+        target.fillColor = .yellow
+    }
 }
 
 // Resets the game by moving the ball below the scene which will unlock the barriers.
@@ -122,7 +136,7 @@ func resetGame() {
     ball.position = Point(x: 0, y: -80)
 }
 
-// Prints the position of a shape to the console.
-func printPosition(of shape: Shape) {
-    print(shape.position)
+
+func alertDismissed() {
+    
 }
