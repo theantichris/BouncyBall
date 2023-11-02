@@ -35,6 +35,7 @@ fileprivate func setUpBall() {
     ball.fillColor = .red
     ball.onCollision = ballCollided(with:)
     ball.onExitedScene = ballExitedScene
+    ball.onTapped = resetGame
     
     scene.add(ball)
     scene.trackShape(ball)
@@ -92,6 +93,12 @@ func ballCollided(with otherShape: Shape) {
     otherShape.fillColor = .green
 }
 
+// Unlocks the barriers once the ball is out of play.
 func ballExitedScene() {
     barrier.isDraggable = true
+}
+
+// Resets the game by moving the ball below the scene which will unlock the barriers.
+func resetGame() {
+    ball.position = Point(x: 0, y: -80)
 }
