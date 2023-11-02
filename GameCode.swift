@@ -43,6 +43,7 @@ fileprivate func setUpBall() {
 
 fileprivate func setUpBarrier() {
     barrier.position = Point(x: 200, y: 150)
+    barrier.angle = 0.1
     barrier.hasPhysics = true
     barrier.isImmobile = true
     barrier.fillColor = .brown
