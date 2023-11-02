@@ -32,6 +32,7 @@ fileprivate func setUpBall() {
     ball.position = Point(x: 250, y: 400)
     ball.hasPhysics = true
     ball.fillColor = .red
+    ball.onCollision = ballCollided(with:)
     scene.add(ball)
 }
 
@@ -56,6 +57,7 @@ fileprivate func setUpTarget() {
     target.isImmobile = true
     target.isImpermeable = false
     target.fillColor = .yellow
+    target.name = "target"
     
     scene.add(target)
 }
@@ -70,4 +72,11 @@ func setup() {
 // Drops the ball by moving it to the funnel's position.
 func dropBall() {
     ball.position = funnel.position
+}
+
+// Handles collisions between the ball and the targets.
+func ballCollided(with otherShape: Shape) {
+    if otherShape.name != "target" { return }
+    
+    otherShape.fillColor = .green
 }
