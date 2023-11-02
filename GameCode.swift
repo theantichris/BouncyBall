@@ -62,7 +62,7 @@ fileprivate func setUpFunnel() {
 }
 
 fileprivate func setUpTarget() {
-    target.position = Point(x: 200, y: 400)
+    target.position = Point(x: 115, y: 447)
     target.hasPhysics = true
     target.isImmobile = true
     target.isImpermeable = false
@@ -78,6 +78,8 @@ func setup() {
     setUpBarrier()
     setUpFunnel()
     setUpTarget()
+    
+    scene.onShapeMoved = printPosition(of:)
 }
 
 // Drops the ball by moving it to the funnel's position.
@@ -103,4 +105,9 @@ func ballExitedScene() {
 // Resets the game by moving the ball below the scene which will unlock the barriers.
 func resetGame() {
     ball.position = Point(x: 0, y: -80)
+}
+
+// Prints the position of a shape to the console.
+func printPosition(of shape: Shape) {
+    print(shape.position)
 }
