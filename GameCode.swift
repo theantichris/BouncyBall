@@ -20,26 +20,32 @@ let funnelPoints = [
 ]
 let funnel = PolygonShape(points: funnelPoints)
 
-func setup() {
-    // Add a circle to the scene.
+fileprivate func setUpBall() {
     circle.position = Point(x: 250, y: 400)
     circle.hasPhysics = true
     circle.fillColor = .red
     scene.add(circle)
-    
-    // Add a barrer to the scene.
+}
+
+fileprivate func setUpBarrier() {
     barrier.position = Point(x: 200, y: 150)
     barrier.hasPhysics = true
     barrier.isImmobile = true
     barrier.fillColor = .brown
     scene.add(barrier)
-    
-    // Add a funnel to the scene.
+}
+
+fileprivate func setUpFunnel() {
     funnel.position = Point(x: 200, y: scene.height - 25)
     funnel.fillColor = .gray
-    scene.add(funnel)
-    
     funnel.onTapped = dropBall
+    scene.add(funnel)
+}
+
+func setup() {
+    setUpBall()
+    setUpBarrier()
+    setUpFunnel()
 }
 
 // Drops the ball by moving it to the funnel's position.
