@@ -30,6 +30,7 @@ let target = PolygonShape(points: targetPoints)
 
 fileprivate func setUpBall() {
     ball.position = Point(x: 250, y: 400)
+    ball.bounciness = 0.6
     ball.hasPhysics = true
     ball.isDraggable = false
     ball.fillColor = .red
