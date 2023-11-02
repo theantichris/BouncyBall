@@ -3,6 +3,7 @@ import Foundation
 let ball = OvalShape(width: 40, height: 40)
 
 var barriers: [Shape] = []
+var targets: [Shape] = []
 
 let funnelPoints = [
     Point(x: 0, y: 50),
@@ -11,14 +12,6 @@ let funnelPoints = [
     Point(x: 20, y: 0),
 ]
 let funnel = PolygonShape(points: funnelPoints)
-
-let targetPoints = [
-    Point(x: 10, y: 0),
-    Point(x: 0, y: 10),
-    Point(x: 10, y: 20),
-    Point(x: 20, y:10),
-]
-let target = PolygonShape(points: targetPoints)
 
 fileprivate func setUpBall() {
     ball.position = Point(x: 250, y: 400)
@@ -63,15 +56,25 @@ fileprivate func setUpFunnel() {
     scene.add(funnel)
 }
 
-fileprivate func setUpTarget() {
-    target.position = Point(x: 115, y: 447)
+fileprivate func addTarget(at position: Point) {
+    let targetPoints = [
+        Point(x: 10, y: 0),
+        Point(x: 0, y: 10),
+        Point(x: 10, y: 20),
+        Point(x: 20, y:10),
+    ]
+    
+    let target = PolygonShape(points: targetPoints)
+    target.position = position
+    target.fillColor = .yellow
     target.hasPhysics = true
     target.isImmobile = true
     target.isImpermeable = false
     target.isDraggable = false
-    target.fillColor = .yellow
     target.name = "target"
     
+    targets.append(target)
+        
     scene.add(target)
 }
 
@@ -79,7 +82,7 @@ func setup() {
     setUpBall()
     addBarrier(at: Point(x: 200, y: 150), width: 80, height: 25, angle: 0.1)
     setUpFunnel()
-    setUpTarget()
+    addTarget(at: Point(x: 150, y: 400))
     
     scene.onShapeMoved = printPosition(of:)
 }
