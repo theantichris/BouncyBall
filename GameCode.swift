@@ -72,6 +72,7 @@ func setup() {
 // Drops the ball by moving it to the funnel's position.
 func dropBall() {
     ball.position = funnel.position
+    ball.stopAllMotion()
 }
 
 // Handles collisions between the ball and the targets.
