@@ -20,6 +20,14 @@ let funnelPoints = [
 ]
 let funnel = PolygonShape(points: funnelPoints)
 
+let targetPoints = [
+    Point(x: 10, y: 0),
+    Point(x: 0, y: 10),
+    Point(x: 10, y: 20),
+    Point(x: 20, y:10),
+]
+let target = PolygonShape(points: targetPoints)
+
 fileprivate func setUpBall() {
     ball.position = Point(x: 250, y: 400)
     ball.hasPhysics = true
@@ -42,10 +50,21 @@ fileprivate func setUpFunnel() {
     scene.add(funnel)
 }
 
+fileprivate func setUpTarget() {
+    target.position = Point(x: 200, y: 400)
+    target.hasPhysics = true
+    target.isImmobile = true
+    target.isImpermeable = false
+    target.fillColor = .yellow
+    
+    scene.add(target)
+}
+
 func setup() {
     setUpBall()
     setUpBarrier()
     setUpFunnel()
+    setUpTarget()
 }
 
 // Drops the ball by moving it to the funnel's position.
