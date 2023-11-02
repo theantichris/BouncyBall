@@ -2,15 +2,7 @@ import Foundation
 
 let ball = OvalShape(width: 40, height: 40)
 
-let barrierWidth = 300.0
-let barrierHeight = 25.0
-let barrierPoints = [
-    Point(x: 0, y: 0),
-    Point(x: 0, y: barrierHeight),
-    Point(x: barrierWidth, y: barrierHeight),
-    Point(x: barrierWidth, y: 0)
-]
-let barrier = PolygonShape(points: barrierPoints)
+var barriers: [Shape] = []
 
 let funnelPoints = [
     Point(x: 0, y: 50),
@@ -42,12 +34,22 @@ fileprivate func setUpBall() {
     scene.trackShape(ball)
 }
 
-fileprivate func setUpBarrier() {
-    barrier.position = Point(x: 200, y: 150)
-    barrier.angle = 0.1
+fileprivate func addBarrier(at position: Point, width: Double, height: Double, angle: Double) {
+    let barrierPoints = [
+        Point(x: 0, y: 0),
+        Point(x: 0, y: height),
+        Point(x: width, y: height),
+        Point(x: width, y: 0)
+    ]
+    
+    let barrier = PolygonShape(points: barrierPoints)
+    barrier.position = position
+    barrier.angle = angle
+    barrier.fillColor = .brown
     barrier.hasPhysics = true
     barrier.isImmobile = true
-    barrier.fillColor = .brown
+    
+    barriers.append(barrier)
     
     scene.add(barrier)
 }
@@ -75,7 +77,7 @@ fileprivate func setUpTarget() {
 
 func setup() {
     setUpBall()
-    setUpBarrier()
+    addBarrier(at: Point(x: 200, y: 150), width: 80, height: 25, angle: 0.1)
     setUpFunnel()
     setUpTarget()
     
@@ -84,8 +86,10 @@ func setup() {
 
 // Drops the ball by moving it to the funnel's position.
 func dropBall() {
-    barrier.isDraggable = false
-    
+    for barrier in barriers {
+        barrier.isDraggable = false
+    }
+        
     ball.position = funnel.position
     ball.stopAllMotion()
 }
@@ -99,7 +103,9 @@ func ballCollided(with otherShape: Shape) {
 
 // Unlocks the barriers once the ball is out of play.
 func ballExitedScene() {
-    barrier.isDraggable = true
+    for barrier in barriers {
+        barrier.isDraggable = true
+    }
 }
 
 // Resets the game by moving the ball below the scene which will unlock the barriers.
